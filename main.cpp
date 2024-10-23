@@ -25,7 +25,6 @@ void printVec(vector<vector<double>>& mat)
 }
 void printVec(vector<double>& mat)
 {
-	
 	for (int q = 0; q < mat.size() && q < 5; q++)
 	{
 		cout << mat[q] << " ";
@@ -104,7 +103,7 @@ void find_x(vector<vector<double>>& A, vector<double>& z)
 int main()
 {
 	srand(time(0));
-	std::cout << std::fixed << std::setprecision(12); //≈сли надо установить больше знаков после зап€той
+	std::cout << std::fixed << std::setprecision(22); //≈сли надо установить больше знаков после зап€той
 	int n = 1000;
 	vector<vector<double>> matA; // можем хранить только нижний треугольный вид, тк она симметрична 
 	vector<double> solution(n, 0);
@@ -159,6 +158,18 @@ int main()
 	
 	cout << "\nTime: " << duration.count() << "\n\n";
 
+
+	double normSol = 0;
+	for (int i = 0; i < solution.size(); i++)
+	{
+		normSol += abs(solution[i]);
+	}
+	double normSolImprecise = 0;
+	for (int i = 0; i < solution.size(); i++)
+	{
+		normSolImprecise += abs(solution[i] - impreciseSolution[i]);
+	}
+	cout << "Relative error: " << normSolImprecise / normSol << "\n";
 	
 
 	return 0;

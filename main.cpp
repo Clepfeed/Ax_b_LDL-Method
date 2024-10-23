@@ -4,7 +4,7 @@
 #include <math.h>
 #include <iomanip>
 #include <chrono>
-
+#include <limits>
 
 using namespace std;
 
@@ -54,20 +54,62 @@ void mulMat(vector<vector<double>>& matA, vector<double>& x, vector<double>& mat
 	}
 }
 
-void LDL(vector<vector<double>>& matA)
+void LD(vector<vector<double>>& mat)
 {
-	for (int i = 0; i < matA.size(); i++)
+	for (int i = 0; i < mat.size(); i++) // идем по столбцам вниз
 	{
+		double sum = 0;
+		for (int k = 0; k < i; k++)
+		{
+			sum += mat[i][k] * mat[i][k] * mat[k][k];
+		}
+		mat[i][i] -= sum;
 		
+		//cout << mat[i][i] << "\n\n";
+		for (int q = i + 1; q < mat.size(); q++)
+		{
+			sum = 0;
+			for (int k = 0; k < i; k++)
+			{
+				sum += mat[q][k] * mat[i][k] * mat[k][k];
+			}
+			mat[q][i] -= sum;
+			mat[q][i] /= mat[i][i];
+		}
+	}
+}
+void find_z(vector<vector<double>>& A, vector<double>& z, vector<double>& b)
+{
+	for (int i = 0; i < A.size(); i++)
+	{
+		for (int q = 0; q < i; q++)
+		{
+			b[i] -= A[i][q] * z[q];
+		}
+		z[i] = b[i];
+	}
+	for (int i = 0; i < A.size(); i++)
+	{
+		z[i] /= A[i][i];
+	}
+}
+void find_x(vector<vector<double>>& A, vector<double>& z)
+{
+	for (int i = A.size() - 1; i >= 0; i--)
+	{
+		for (int q = i + 1; q < A.size(); q++)
+		{
+			z[i] -= A[q][i] * z[q];
+		}
 	}
 }
 
 int main()
 {
 	srand(time(0));
-	//std::cout << std::fixed << std::setprecision(12); //≈сли надо установить больше знаков после зап€той
-	int n = 3;
-	vector<vector<double>> matA; // можем хранить только верхний треугольный вид, тк она симметрична 
+	std::cout << std::fixed << std::setprecision(12); //≈сли надо установить больше знаков после зап€той
+	int n = 1000;
+	vector<vector<double>> matA; // можем хранить только нижний треугольный вид, тк она симметрична 
 	vector<double> solution(n, 0);
 	vector<double> impreciseSolution(n, 0);
 	vector<double> matB(n, 0);
@@ -77,8 +119,7 @@ int main()
 		vector <double> temp;
 		for (int q = 0; q < i; q++)
 		{
-			//temp.push_back(rand() % 200 - 100.0);
-			temp.push_back(rand() % 8 + 1.0);
+			temp.push_back(rand() % 201 - 100.0);
 		}
 		temp.push_back(0);
 		matA.push_back(temp);
@@ -88,11 +129,11 @@ int main()
 		double sum = 0;
 		for (int q = 0; q < matA[i].size(); q++)
 		{
-			sum += matA[i][q];
+			sum += abs(matA[i][q]);
 		}
 		for (int q = matA[i].size(); q < matA.size(); q++)
 		{
-			sum += matA[q][i];
+			sum += abs(matA[q][i]);
 		}
 		matA[i][i] = rand() % 120 + 12.0 + sum;
 	}
@@ -102,23 +143,27 @@ int main()
 	}
 	mulMat(matA, solution, matB); // перемножаем матрицы
 	// получили матрицу b
-	
-	/*printVec(matA);
+
 	cout << "Solution:\n";
 	printVec(solution);
-	cout << "\nMat B:\n";
-	printVec(matB);*/
+
+	cout << "\n\n";
+	//printVec(matA);
 
 	auto start = chrono::high_resolution_clock::now();
 
-	LDL(matA); // преобразуем A в LDL^T
+	LD(matA); // преобразуем A в LD
+	find_z(matA, impreciseSolution, matB); // находим сразу вектор z
+	find_x(matA, impreciseSolution); // находим x
 
 	auto end = chrono::high_resolution_clock::now();
 	chrono::duration<double> duration = end - start;
-	cout << "\nTime: " << duration.count() << "\n\n";
-
 	
 
+	cout << "Imprecise solution:\n";
+	printVec(impreciseSolution);
+	
+	cout << "\nTime: " << duration.count() << "\n\n";
 
 	return 0;
 }

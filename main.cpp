@@ -4,7 +4,6 @@
 #include <math.h>
 #include <iomanip>
 #include <chrono>
-#include <limits>
 
 using namespace std;
 
@@ -32,7 +31,7 @@ void printVec(vector<double>& mat)
 		cout << mat[q] << " ";
 	}
 	cout << "\n";
-	for (int q = mat.size() - 1; q > mat.size() - 6; q--)
+	for (int q = mat.size() - 6 > 5 ? mat.size() - 6 : 5; q < mat.size(); q++)
 	{
 		cout << mat[q] << " ";
 	}
@@ -64,8 +63,6 @@ void LD(vector<vector<double>>& mat)
 			sum += mat[i][k] * mat[i][k] * mat[k][k];
 		}
 		mat[i][i] -= sum;
-		
-		//cout << mat[i][i] << "\n\n";
 		for (int q = i + 1; q < mat.size(); q++)
 		{
 			sum = 0;
@@ -146,24 +143,23 @@ int main()
 
 	cout << "Solution:\n";
 	printVec(solution);
-
 	cout << "\n\n";
-	//printVec(matA);
 
 	auto start = chrono::high_resolution_clock::now();
 
 	LD(matA); // преобразуем A в LD
-	find_z(matA, impreciseSolution, matB); // находим сразу вектор z
+	find_z(matA, impreciseSolution, matB); // находим вектор z
 	find_x(matA, impreciseSolution); // находим x
 
 	auto end = chrono::high_resolution_clock::now();
 	chrono::duration<double> duration = end - start;
-	
 
 	cout << "Imprecise solution:\n";
 	printVec(impreciseSolution);
 	
 	cout << "\nTime: " << duration.count() << "\n\n";
+
+	
 
 	return 0;
 }

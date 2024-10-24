@@ -1,8 +1,8 @@
 ﻿  main.cpp
-D:\C++\BSU\MB\Ax_b_LDL-Method\main.cpp(19,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\C++\BSU\MB\Ax_b_LDL-Method\main.cpp(33,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\C++\BSU\MB\Ax_b_LDL-Method\main.cpp(48,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\C++\BSU\MB\Ax_b_LDL-Method\main.cpp(94,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\C++\BSU\MB\Ax_b_LDL-Method\main.cpp(105,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\C++\BSU\MB\Ax_b_LDL-Method\main.cpp(130,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  LDL.vcxproj -> D:\C++\BSU\MB\Ax_b_LDL-Method\x64\Debug\LDL.exe
+D:\Code\c++\MB\Lab2\Ax_b_LDL-Method\main.cpp(21,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Code\c++\MB\Lab2\Ax_b_LDL-Method\main.cpp(33,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Code\c++\MB\Lab2\Ax_b_LDL-Method\main.cpp(47,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Code\c++\MB\Lab2\Ax_b_LDL-Method\main.cpp(93,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Code\c++\MB\Lab2\Ax_b_LDL-Method\main.cpp(104,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Code\c++\MB\Lab2\Ax_b_LDL-Method\main.cpp(129,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  LDL.vcxproj -> D:\Code\c++\MB\Lab2\Ax_b_LDL-Method\x64\Debug\LDL.exe

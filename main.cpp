@@ -4,9 +4,11 @@
 #include <math.h>
 #include <iomanip>
 #include <chrono>
+#include <fstream>
 
 using namespace std;
 
+ofstream fout("res.txt");
 
 void printVec(vector<vector<double>>& mat)
 {
@@ -14,28 +16,25 @@ void printVec(vector<vector<double>>& mat)
 	{
 		for (int q = 0; q < mat[i].size(); q++)
 		{
-			cout << mat[i][q] << " ";
+			fout << mat[i][q] << " ";
 		}
 		for (int q = mat[i].size(); q < mat.size(); q++)
 		{
-			cout << mat[q][i] << " ";
+			fout << mat[q][i] << " ";
 		}
-		cout << "\n";
 	}
 }
 void printVec(vector<double>& mat)
 {
 	for (int q = 0; q < mat.size() && q < 5; q++)
 	{
-		cout << mat[q] << " ";
+		fout << mat[q] << " ";
 	}
-	cout << "\n";
-	for (int q = mat.size() - 6 > 5 ? mat.size() - 6 : 5; q < mat.size(); q++)
+	for (int q = mat.size() - 5 > 5 ? mat.size() - 5 : 5; q < mat.size(); q++)
 	{
-		cout << mat[q] << " ";
+		fout << mat[q] << " ";
 	}
-	cout << "\n";
-	
+	fout << "\n";
 }
 void mulMat(vector<vector<double>>& matA, vector<double>& x, vector<double>& matB)
 {
@@ -103,7 +102,7 @@ void find_x(vector<vector<double>>& A, vector<double>& z)
 int main()
 {
 	srand(time(0));
-	std::cout << std::fixed << std::setprecision(22); //Если надо установить больше знаков после запятой
+	/*fout << std::fixed << std::setprecision(22);*/ //Если надо установить больше знаков после запятой
 	int n = 1000;
 	vector<vector<double>> matA; // можем хранить только нижний треугольный вид, тк она симметрична 
 	vector<double> solution(n, 0);
@@ -140,9 +139,9 @@ int main()
 	mulMat(matA, solution, matB); // перемножаем матрицы
 	// получили матрицу b
 
-	cout << "Solution:\n";
+	fout << "Solution:\n";
 	printVec(solution);
-	cout << "\n\n";
+	fout << "\n\n";
 
 	auto start = chrono::high_resolution_clock::now();
 
@@ -153,10 +152,11 @@ int main()
 	auto end = chrono::high_resolution_clock::now();
 	chrono::duration<double> duration = end - start;
 
-	cout << "Imprecise solution:\n";
+	fout << std::fixed << std::setprecision(22);
+	fout << "Imprecise solution:\n";
 	printVec(impreciseSolution);
 	
-	cout << "\nTime: " << duration.count() << "\n\n";
+	fout << "\nTime: " << duration.count() << " seconds\n\n";
 
 
 	double normSol = 0;
@@ -169,7 +169,7 @@ int main()
 	{
 		normSolImprecise += abs(solution[i] - impreciseSolution[i]);
 	}
-	cout << "Relative error: " << normSolImprecise / normSol << "\n";
+	fout << "Relative error: " << normSolImprecise / normSol << "\n";
 	
 
 	return 0;
